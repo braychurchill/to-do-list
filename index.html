@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bray's To-Do List</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="header">
+    <img id="modeIcon" src="moon.png" class="modeIcon" alt="Mode Icon">
+
+    <label class="switch">
+      <input type="checkbox" id="modeToggle">
+      <span class="slider round"></span>
+    </label>
+  </div>
+    
+  <div class="container">
+  
+    <h1 id="time">--:--:--</h1>
+    
+    <div class="todo">
+      <h2>To-Do List</h2>
+      <div class="input-row">
+      <input id="taskInput" type="text"
+        placeholder="Add to the list..." /> 
+      <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="taskList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  </body>
+</html>
