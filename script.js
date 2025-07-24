@@ -13,7 +13,21 @@ function addTask() {
   if (taskText === '') return;
 
   const li = document.createElement('li')
-  li.textContent = taskText
+
+  const bullet = document.createElement('span')
+  bullet.textContent = "✧";
+  bullet.style.color = '#4a4aff';
+  bullet.style.cursor = 'pointer';
+  bullet.style.marginRight = '0.5em';
+
+  bullet.addEventListener('click', () => {
+    li.remove();
+    saveTasks();
+});
+
+  li.appendChild(bullet);
+  li.appendChild(document.createTextNode(taskText));
+  
 
   li.addEventListener('click', () => {
     li.classList.toggle('completed');
@@ -21,7 +35,45 @@ function addTask() {
   
   document.getElementById('taskList').appendChild(li);
   input.value = '';
+  saveTasks();
 }
+
+function saveTasks() {
+  const tasks = [];
+  document.querySelectorAll('#taskList li').forEach(li => {
+    tasks.push(li.childNodes[1].textContent);
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  savedTasks.forEach(taskText => {
+    const li = document.createElement('li');
+
+    const bullet = document.createElement('span');
+    bullet.textContent = "✧";
+    bullet.style.color = '#4a4aff';
+    bullet.style.cursor = 'pointer';
+    bullet.style.marginRight = '0.5em';
+
+    bullet.addEventListener('click', () => {
+      li.remove();
+      saveTasks();
+    });
+
+    li.appendChild(bullet);
+    li.appendChild(document.createTextNode(taskText));
+
+    li.addEventListener('click', () => {
+      li.classList.toggle('completed');
+    });
+
+    document.getElementById('taskList').appendChild(li);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadTasks);
 
 function applyMode(mode) {
   const body = document.body;
@@ -54,4 +106,11 @@ document.addEventListener('DOMContentLoaded',() => {
   document.getElementById('modeToggle').checked = initialMode === 'light';
   applyMode(initialMode);
   setupModeToggle();
+
+  const input = document.getElementById('taskInput');
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      addTask();
+    }
+  });
   });
